@@ -15,3 +15,5 @@ python3 src/tag_finder.py output/master_gene_table.tsv -s 2 -f hsfamily > output
 python3 src/tag_finder.py output/master_gene_table.tsv -s 2 -f lsfamily > output/lstags2.tsv
 
 python3 src/tag_histograms.py
+chmod u+x src/pal2nal.pl
+julia -t 8 src/paml_driver.jl
