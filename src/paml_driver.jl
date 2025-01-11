@@ -228,9 +228,7 @@ function drive_job(family, seqid1, seqid2, job_ctx, batch_ctx)
         # @lock batch_ctx.loglock println(logio, "\n ^^    Error in pal2nal with $(seqid1) and $(seqid2)    ^^")
         return 1
     end
-    
-    write_yn00_control_file(joinpath(job_ctx.jdir, "yn00.ctl"), job_ctx.phy_file, job_ctx.outfile)
-    
+     
     try
         run(job_ctx.cmd_yn00)
     catch
@@ -287,6 +285,7 @@ function main()
     job_context_chnl = Channel{JobContext}(nt)
     for ctx in job_context_pool
         put!(job_context_chnl, ctx)
+        write_yn00_control_file(joinpath(ctx.jdir, "yn00.ctl"), ctx.phy_file, ctx.outfile)
     end
 
     println(BATCH_CONTEXT.outio, "family\tseqid1\tseqid2\tS\tN\tt\tκ\tω\tdN\tSE_dN\tdS\tSE_dS")
