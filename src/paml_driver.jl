@@ -232,6 +232,14 @@ function drive_job(family, seqid1, seqid2, job_ctx, batch_ctx)
     try
         run(job_ctx.cmd_yn00)
     catch
+        open(job_ctx.phy_file) do f
+            while ! eof(f)
+                write(job_ctx.logio, "PHY FILE BELOW: ---------------\n")
+                line = readline(f, keep=true)
+                write(job_ctx.logio, line)
+                write(job_ctx.logio, "--------------- END OF PHY FILE")
+            end
+        end
         println(job_ctx.logio, "\n ^^    Error in yn00 with $(seqid1) and $(seqid2)    ^^")
         # @lock batch_ctx.loglock println(logio, "\n ^^    Error in yn00 with $(seqid1) and $(seqid2)    ^^")
         return 1
